@@ -1,9 +1,7 @@
 """
 Implement constrained Bayesian optimizer for our test.
 """
-import numpy as np
 import vabo
-from scipy.stats import norm
 from .base_contextual_optimizer import BaseContextualBO
 
 
@@ -11,6 +9,10 @@ class ViolationAwareContextualBO(BaseContextualBO):
 
     def __init__(self, opt_problem, violation_aware_contextual_BO_config):
         # optimization problem and measurement noise
+
+        # for contextual optimization, use LCB acquisition function instead
+        # of CEI acquisition
+        violation_aware_contextual_BO_config['acq_func_type'] = 'LCB'
         super(ViolationAwareContextualBO, self).__init__(
             violation_aware_contextual_BO_config)
         self.violation_aware_bo = vabo.ViolationAwareBO(
